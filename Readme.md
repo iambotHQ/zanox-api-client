@@ -9,8 +9,7 @@ extern crate tokio_core;
 use tokio_core::reactor::Core;
 use zanox_api_client::{ZanoxClient,SearchType};
 
-#[test]
-fn should_download_products(){   
+fn main(){   
 	let mut core = Core::new().unwrap();
     	let handle = core.handle();
 	let client=ZanoxClient::new(String::from("CONNECT_ID"),&handle);
