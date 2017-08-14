@@ -18,6 +18,8 @@ use hyper::{Client,StatusCode};
 use std::clone::Clone;
 use futures::Stream;
 use url::Url;
+use std::error::Error;
+use std::fmt;
 const ALL_PRODUCTS_URL:&'static str="http://api.zanox.com/json/2011-03-01/products";
 
 #[derive(Debug)]
@@ -47,6 +49,20 @@ pub enum ZanoxClientError{
 	ResponseReadError(String),
 	DeserializationError(String),
 	ServerError(StatusCode,String)
+}
+
+
+impl fmt::Display for ZanoxClientError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}",self)
+    }
+}
+
+impl Error for ZanoxClientError {
+    fn description(&self) -> &str {
+        "Zanox client error!"
+    }
+
 }
 
 impl ZanoxClient{
