@@ -24,7 +24,9 @@ pub struct TrackingLinks{
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ProductImages{
-	pub large:Option<String>
+	pub large:Option<String>,
+	pub small:Option<String>,
+	pub medium:Option<String>
 }
 
 
