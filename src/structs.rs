@@ -34,13 +34,13 @@ fn parse_to_option_string<'de, D>(d: D) -> Result<Option<String>, D::Error> wher
     Deserialize::deserialize(d)
         .map(|x: Option<_>| {
             x.map(|d:Value|{d.to_string()})
-        })
+        }).or_else(|_|{Ok(None)})
 }
 fn parse_to_string<'de, D>(d: D) -> Result<String, D::Error> where D: Deserializer<'de> {
     Deserialize::deserialize(d)
         .map(|x: Value| {
            x.to_string()
-        })
+        }).or_else(|_|{Ok(String::new())})
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
