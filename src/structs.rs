@@ -56,7 +56,7 @@ pub struct Product{
 	#[serde(rename="image")]
 	pub images: ProductImages,
 	#[serde(rename="priceOld")]
-	pub price_old:Option<String>,
+	pub price_old:Option<f32>,
 	#[serde(rename="shippingCosts")]
 	pub shipping_costs:Option<f32>,
 	pub shipping:Option<f32>,
