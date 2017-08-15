@@ -36,12 +36,7 @@ fn parse_to_option_string<'de, D>(d: D) -> Result<Option<String>, D::Error> wher
             x.map(|d:Value|{d.to_string()})
         }).or_else(|_|{Ok(None)})
 }
-fn parse_to_string<'de, D>(d: D) -> Result<String, D::Error> where D: Deserializer<'de> {
-    Deserialize::deserialize(d)
-        .map(|x: Value| {
-           x.to_string()
-        }).or_else(|_|{Ok(String::new())})
-}
+
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Product{
@@ -50,8 +45,7 @@ pub struct Product{
 	pub name: Option<String>,
 	pub modified: Option<String>,
 	pub program:Program,
-	#[serde(deserialize_with="parse_to_string")]
-	pub price:String,
+	pub price:f32,
 	pub currency:String,
 	#[serde(rename="trackingLinks")]
 	pub tracking_links:TrackingLinks,
@@ -61,14 +55,11 @@ pub struct Product{
 	pub manufacturer: String,
 	#[serde(rename="image")]
 	pub images: ProductImages,
-	#[serde(deserialize_with="parse_to_option_string")]
 	#[serde(rename="priceOld")]
 	pub price_old:Option<String>,
 	#[serde(rename="shippingCosts")]
-	#[serde(deserialize_with="parse_to_option_string")]
-	pub shipping_costs:Option<String>,
-	#[serde(deserialize_with="parse_to_option_string")]
-	pub shipping:Option<String>,
+	pub shipping_costs:Option<f32>,
+	pub shipping:Option<f32>,
 	#[serde(rename="merchantCategory")]
 	pub merchant_category:Option<String>,
 	#[serde(rename="merchantProductId")]
