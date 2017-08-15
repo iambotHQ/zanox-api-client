@@ -1,3 +1,5 @@
+use serde::{Deserialize,Deserializer};
+use serde_json::Value;
 pub type Identifier=String;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Program{
@@ -28,7 +30,18 @@ pub struct ProductImages{
 	pub small:Option<String>,
 	pub medium:Option<String>
 }
-
+fn parse_to_option_string<'de, D>(d: D) -> Result<Option<String>, D::Error> where D: Deserializer<'de> {
+    Deserialize::deserialize(d)
+        .map(|x: Option<_>| {
+            x.map(|d:Value|{d.to_string()})
+        })
+}
+fn parse_to_string<'de, D>(d: D) -> Result<String, D::Error> where D: Deserializer<'de> {
+    Deserialize::deserialize(d)
+        .map(|x: Value| {
+           x.to_string()
+        })
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Product{
@@ -37,7 +50,8 @@ pub struct Product{
 	pub name: Option<String>,
 	pub modified: Option<String>,
 	pub program:Program,
-	pub price:f32,
+	#[serde(deserialize_with="parse_to_string")]
+	pub price:String,
 	pub currency:String,
 	#[serde(rename="trackingLinks")]
 	pub tracking_links:TrackingLinks,
@@ -47,15 +61,19 @@ pub struct Product{
 	pub manufacturer: String,
 	#[serde(rename="image")]
 	pub images: ProductImages,
+	#[serde(deserialize_with="parse_to_option_string")]
 	#[serde(rename="priceOld")]
-	pub price_old:Option<f32>,
+	pub price_old:Option<String>,
 	#[serde(rename="shippingCosts")]
-	pub shipping_costs:Option<f32>,
-	pub shipping:Option<f32>,
+	#[serde(deserialize_with="parse_to_option_string")]
+	pub shipping_costs:Option<String>,
+	#[serde(deserialize_with="parse_to_option_string")]
+	pub shipping:Option<String>,
 	#[serde(rename="merchantCategory")]
 	pub merchant_category:Option<String>,
 	#[serde(rename="merchantProductId")]
-	pub merchant_product_id:Option<i32>
+	#[serde(deserialize_with="parse_to_option_string")]
+	pub merchant_product_id:Option<String>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
