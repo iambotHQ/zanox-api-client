@@ -1,4 +1,3 @@
-use serde::{Deserialize,Deserializer};
 use serde_json::Value;
 pub type Identifier=String;
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -30,12 +29,7 @@ pub struct ProductImages{
 	pub small:Option<String>,
 	pub medium:Option<String>
 }
-fn parse_to_option_string<'de, D>(d: D) -> Result<Option<String>, D::Error> where D: Deserializer<'de> {
-    Deserialize::deserialize(d)
-        .map(|x: Option<_>| {
-            x.map(|d:Value|{d.to_string()})
-        }).or_else(|_|{Ok(None)})
-}
+
 
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -63,8 +57,7 @@ pub struct Product{
 	#[serde(rename="merchantCategory")]
 	pub merchant_category:Option<String>,
 	#[serde(rename="merchantProductId")]
-	#[serde(deserialize_with="parse_to_option_string")]
-	pub merchant_product_id:Option<String>
+	pub merchant_product_id:Value
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
