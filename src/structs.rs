@@ -55,7 +55,7 @@ pub struct Product{
 	pub shipping_costs:Option<f32>,
 	pub shipping:Option<f32>,
 	#[serde(rename="merchantCategory")]
-	pub merchant_category:Option<String>,
+	pub merchant_category:Option<Value>,
 	#[serde(rename="merchantProductId")]
 	pub merchant_product_id:Value
 }
