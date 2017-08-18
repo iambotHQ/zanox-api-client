@@ -43,9 +43,9 @@ pub struct Product{
 	pub currency:String,
 	#[serde(rename="trackingLinks")]
 	pub tracking_links:TrackingLinks,
-	pub description: String,
+	pub description: Option<String>,
 	#[serde(rename="descriptionLong")]
-	pub description_long: String,
+	pub description_long: Option<String>,
 	pub manufacturer: String,
 	#[serde(rename="image")]
 	pub images: ProductImages,
