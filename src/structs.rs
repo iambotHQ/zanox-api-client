@@ -46,7 +46,7 @@ pub struct Product{
 	pub description: Option<String>,
 	#[serde(rename="descriptionLong")]
 	pub description_long: Option<String>,
-	pub manufacturer: String,
+	pub manufacturer: Option<String>,
 	#[serde(rename="image")]
 	pub images: ProductImages,
 	#[serde(rename="priceOld")]
